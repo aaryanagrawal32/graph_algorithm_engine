@@ -165,3 +165,93 @@ std::vector<NodeType> reconstructPath(const DijkstraResult<NodeType, WeightType,
 
     return path;
 }
+
+/**
+ * @struct DijkstraStatsResult
+ * @brief Contains the reconstructed shortest path and execution statistics.
+ */
+template<typename NodeType>
+struct DijkstraStatsResult {
+    std::vector<NodeType> path;
+    int nodesVisited = 0;
+};
+
+/**
+ * @brief Performs Dijkstra's algorithm from src to dst, tracking unique visited nodes.
+ * @tparam NodeType Type of the graph nodes.
+ * @tparam WeightType Type of the edge weights.
+ * @tparam Hash Hash functor for NodeType.
+ * @param g Reference to the Graph object.
+ * @param src The source node.
+ * @param dst The destination node.
+ * @return DijkstraStatsResult containing the path and nodesVisited count.
+ */
+template<typename NodeType, typename WeightType, typename Hash>
+DijkstraStatsResult<NodeType> dijkstraWithStats(
+    const Graph<NodeType, WeightType, Hash>& g, NodeType src, NodeType dst) {
+    
+    DijkstraStatsResult<NodeType> result;
+    if (!g.hasNode(src) || !g.hasNode(dst)) {
+        return result;
+    }
+
+    const WeightType INF = std::numeric_limits<WeightType>::has_infinity 
+                           ? std::numeric_limits<WeightType>::infinity() 
+                           : std::numeric_limits<WeightType>::max();
+
+    std::unordered_map<NodeType, WeightType, Hash> dist;
+    std::unordered_map<NodeType, NodeType, Hash> prev;
+
+    for (const auto& node : g) {
+        dist[node] = INF;
+    }
+    dist[src] = 0;
+
+    using PQElement = std::pair<WeightType, NodeType>;
+    std::priority_queue<PQElement, std::vector<PQElement>, std::greater<PQElement>> pq;
+
+    pq.push({0, src});
+
+    std::unordered_set<NodeType, Hash> closedSet;
+
+    while (!pq.empty()) {
+        auto [d, u] = pq.top();
+        pq.pop();
+
+        if (closedSet.find(u) != closedSet.end()) {
+            continue;
+        }
+        closedSet.insert(u);
+        result.nodesVisited++;
+
+        if (u == dst) {
+            // Reconstruct path
+            NodeType curr = dst;
+            while (curr != src) {
+                result.path.push_back(curr);
+                curr = prev[curr];
+            }
+            result.path.push_back(src);
+            std::reverse(result.path.begin(), result.path.end());
+            return result;
+        }
+
+        for (const auto& edge : g.neighbors(u)) {
+            NodeType v = edge.to;
+            WeightType w = edge.weight;
+
+            if (closedSet.find(v) != closedSet.end()) {
+                continue;
+            }
+
+            if (dist[u] + w < dist[v]) {
+                dist[v] = dist[u] + w;
+                prev[v] = u;
+                pq.push({dist[v], v});
+            }
+        }
+    }
+
+    return result; // Empty path if unreachable
+}
+
