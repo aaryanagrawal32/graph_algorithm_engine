@@ -1,0 +1,8 @@
+[
+{
+  "directory": "C:/Users/Aaryan agrawal/OneDrive - iitkgp.ac.in/Desktop/Projects/DSA/graph_algorithm_engine/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe  @CMakeFiles\\graph_engine.dir\\includes_CXX.rsp -g -std=gnu++17 -Wall -Wextra -O2 -o CMakeFiles\\graph_engine.dir\\src\\main.cpp.obj -c \"C:\\Users\\Aaryan agrawal\\OneDrive - iitkgp.ac.in\\Desktop\\Projects\\DSA\\graph_algorithm_engine\\src\\main.cpp\"",
+  "file": "C:/Users/Aaryan agrawal/OneDrive - iitkgp.ac.in/Desktop/Projects/DSA/graph_algorithm_engine/src/main.cpp",
+  "output": "CMakeFiles/graph_engine.dir/src/main.cpp.obj"
+}
+]

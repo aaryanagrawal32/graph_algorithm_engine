@@ -1,90 +1,83 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <iomanip>
 #include "Graph.hpp"
 #include "algorithms/BFS.hpp"
 #include "algorithms/DFS.hpp"
+#include "algorithms/Dijkstra.hpp"
 
 int main() {
     std::cout << "==================================================\n";
-    std::cout << "    Graph Algorithm Engine - DFS Demonstration    \n";
+    std::cout << "  Graph Algorithm Engine - Dijkstra Demonstration \n";
     std::cout << "==================================================\n\n";
 
-    // 1. Constructing the 12-node sample graph
-    std::cout << "[1] Constructing Directed Sample Graph...\n";
-    Graph<int, int> g(true); // directed graph
-    g.addEdge(0, 1, 1);
-    g.addEdge(1, 2, 1);
-    g.addEdge(2, 0, 1);
-    g.addEdge(2, 3, 3);
-    g.addEdge(3, 4, 2);
-    g.addEdge(4, 5, 2);
-    g.addEdge(5, 3, 2);
-    g.addEdge(4, 6, 1);
-    g.addEdge(6, 7, 4);
-    g.addEdge(7, 8, -2);
-    g.addEdge(8, 9, 3);
-    g.addEdge(9, 10, 2);
-    g.addEdge(10, 11, 1);
-    g.addEdge(7, 9, 5);
-    g.addEdge(10, 6, 2);
+    // 1. Constructing a positive-weighted road map graph
+    std::cout << "[1] Constructing Travel Map (Undirected, positive weights)...\n";
+    Graph<std::string, double> travelMap(false); // Undirected
 
-    std::cout << "Nodes count: " << g.nodeCount() << " (Expected: 12)\n";
-    std::cout << "Edges count: " << g.edgeCount() << " (Expected: 15)\n\n";
+    travelMap.addEdge("Delhi", "Mumbai", 1400.0);
+    travelMap.addEdge("Delhi", "Kolkata", 1500.0);
+    travelMap.addEdge("Mumbai", "Kolkata", 2000.0);
+    travelMap.addEdge("Mumbai", "Bengaluru", 1000.0);
+    travelMap.addEdge("Kolkata", "Bengaluru", 1900.0);
+    travelMap.addEdge("Delhi", "Bengaluru", 2100.0);
+    travelMap.addEdge("Delhi", "Hyderabad", 1200.0);
+    travelMap.addEdge("Hyderabad", "Bengaluru", 500.0);
 
-    // 2. Comparing Recursive DFS and Iterative DFS
-    std::cout << "[2] Comparing Recursive and Iterative DFS Traversal (starting from 0):\n";
-    std::vector<int> recDFS = dfs(g, 0);
-    std::vector<int> iterDFS = dfsIterative(g, 0);
+    std::cout << "Travel Map created successfully!\n";
+    std::cout << "Cities count: " << travelMap.nodeCount() << "\n";
+    std::cout << "Routes count: " << travelMap.edgeCount() << "\n\n";
 
-    std::cout << "  Recursive DFS: ";
-    for (size_t i = 0; i < recDFS.size(); ++i) {
-        std::cout << recDFS[i] << (i + 1 < recDFS.size() ? " -> " : "");
+    // 2. Run Dijkstra's shortest path
+    std::cout << "[2] Running Dijkstra's Algorithm from 'Delhi'...\n";
+    auto dijkstraRes = dijkstra(travelMap, std::string("Delhi"));
+
+    std::cout << "  Shortest distances from Delhi:\n";
+    std::cout << "  -----------------------------\n";
+    std::cout << "  " << std::left << std::setw(15) << "City" << "Distance (km)\n";
+    std::cout << "  " << std::left << std::setw(15) << "----" << "-------------\n";
+    for (const auto& [city, dist] : dijkstraRes.dist) {
+        std::cout << "  " << std::left << std::setw(15) << city << dist << "\n";
     }
     std::cout << "\n";
 
-    std::cout << "  Iterative DFS: ";
-    for (size_t i = 0; i < iterDFS.size(); ++i) {
-        std::cout << iterDFS[i] << (i + 1 < iterDFS.size() ? " -> " : "");
+    // 3. Path reconstruction & Comparison with BFS
+    std::cout << "[3] Comparing Shortest Paths from 'Delhi' to 'Bengaluru':\n";
+
+    // Dijkstra Path (Weight-optimal)
+    std::vector<std::string> dijkstraPath = reconstructPath(dijkstraRes, std::string("Delhi"), std::string("Bengaluru"));
+    std::cout << "  Dijkstra Path (Weight-Optimal): ";
+    for (size_t i = 0; i < dijkstraPath.size(); ++i) {
+        std::cout << dijkstraPath[i] << (i + 1 < dijkstraPath.size() ? " -> " : "");
     }
-    std::cout << "\n\n";
-    std::cout << "  *Note: Traversal orders may differ because recursive DFS explores branches\n";
-    std::cout << "  immediately and marks nodes visited on start, while iterative DFS pushes\n";
-    std::cout << "  all neighbors onto the stack and marks them visited when popped.\n\n";
+    std::cout << "\n  Total Cost: " << dijkstraRes.dist["Bengaluru"] << " km\n\n";
 
-    // 3. Cycle Detection
-    std::cout << "[3] Testing Cycle Detection (hasCycle):\n";
-    std::cout << "  Sample Graph cycle status: " << (hasCycle(g) ? "CYCLE DETECTED" : "NO CYCLE") 
-              << " (Expected: CYCLE DETECTED)\n";
+    // BFS Path (Hop-Optimal)
+    std::vector<std::string> bfsPath = bfsShortestPath(travelMap, std::string("Delhi"), std::string("Bengaluru"));
+    std::cout << "  BFS Path (Hop-Optimal / Minimum Edges): ";
+    for (size_t i = 0; i < bfsPath.size(); ++i) {
+        std::cout << bfsPath[i] << (i + 1 < bfsPath.size() ? " -> " : "");
+    }
+    // Calculate cost of BFS path
+    double bfsCost = 0.0;
+    for (size_t i = 0; i + 1 < bfsPath.size(); ++i) {
+        for (const auto& edge : travelMap.neighbors(bfsPath[i])) {
+            if (edge.to == bfsPath[i+1]) {
+                bfsCost += edge.weight;
+                break;
+            }
+        }
+    }
+    std::cout << "\n  Total Cost: " << bfsCost << " km\n\n";
 
-    // Create an acyclic directed graph (Tree)
-    Graph<int, int> tree(true);
-    tree.addEdge(1, 2, 1);
-    tree.addEdge(1, 3, 1);
-    tree.addEdge(2, 4, 1);
-    tree.addEdge(2, 5, 1);
-    std::cout << "  Acyclic Tree cycle status: " << (hasCycle(tree) ? "CYCLE DETECTED" : "NO CYCLE")
-              << " (Expected: NO CYCLE)\n\n";
-
-    // 4. Connectivity Checks
-    std::cout << "[4] Testing Connectivity Checks (isConnected):\n";
-    std::cout << "  Sample Graph connectivity: " << (isConnected(g) ? "CONNECTED" : "DISCONNECTED")
-              << " (Expected: CONNECTED)\n";
-
-    // Create a disconnected graph
-    Graph<int, int> disconnectedGraph(false); // undirected
-    disconnectedGraph.addEdge(1, 2, 1);
-    disconnectedGraph.addEdge(3, 4, 1); // Component {1, 2} and Component {3, 4} are separate
-    std::cout << "  Undirected Forest connectivity: " << (isConnected(disconnectedGraph) ? "CONNECTED" : "DISCONNECTED")
-              << " (Expected: DISCONNECTED)\n";
-
-    // Add isolated node to sample graph g to make it disconnected
-    g.addNode(100); // 100 is completely isolated
-    std::cout << "  Sample Graph + Isolated Node connectivity: " << (isConnected(g) ? "CONNECTED" : "DISCONNECTED")
-              << " (Expected: DISCONNECTED)\n\n";
+    std::cout << "  *Analysis: BFS finds the direct route (Delhi -> Bengaluru) containing 1 edge\n";
+    std::cout << "   but costing 2100 km. Dijkstra finds the routing through Hyderabad\n";
+    std::cout << "   containing 2 edges but costing only 1700 km, showing why Dijkstra is\n";
+    std::cout << "   necessary for weighted networks.\n\n";
 
     std::cout << "==================================================\n";
-    std::cout << "All DFS operations demonstrated successfully!\n";
+    std::cout << "Dijkstra demonstrated successfully!\n";
     std::cout << "==================================================\n";
 
     return 0;
