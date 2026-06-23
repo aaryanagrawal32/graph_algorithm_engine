@@ -2,149 +2,134 @@
 #include <string>
 #include <vector>
 #include <iomanip>
+#include <tuple>
 #include "Graph.hpp"
 #include "algorithms/BFS.hpp"
 #include "algorithms/DFS.hpp"
 #include "algorithms/Dijkstra.hpp"
 #include "algorithms/AStar.hpp"
 #include "algorithms/BellmanFord.hpp"
+#include "algorithms/Kruskal.hpp"
+#include "algorithms/TarjanSCC.hpp"
+#include "algorithms/TopologicalSort.hpp"
 
 int main() {
     std::cout << "==================================================\n";
-    std::cout << "  Graph Engine - A* & Bellman-Ford Demonstration  \n";
+    std::cout << "  Graph Engine - Connectivity & Sorting Demo      \n";
     std::cout << "==================================================\n\n";
 
     // ============================================================================
-    // 1. A* vs Dijkstra grid comparison
+    // 1. Kruskal Minimum Spanning Tree
     // ============================================================================
-    std::cout << "[1] Benchmarking A* vs Dijkstra on a 5x5 Grid with a Wall Obstacle:\n";
-    
-    // We create a grid graph with coordinates as std::pair<int, int>
-    Graph<std::pair<int, int>, double> grid(false); // Undirected
+    std::cout << "[1] Running Kruskal's Minimum Spanning Tree (Undirected):\n";
+    Graph<int, int> undirGraph(false); // Undirected
 
-    // Obstacle Wall: (2, 0), (2, 1), (2, 2), (2, 3).
-    // Node (2, 4) is open as a passage.
-    auto isWall = [](int x, int y) {
-        return (x == 2 && y >= 0 && y <= 3);
-    };
+    undirGraph.addEdge(1, 2, 4);
+    undirGraph.addEdge(1, 3, 2);
+    undirGraph.addEdge(2, 3, 1);
+    undirGraph.addEdge(3, 4, 5);
+    undirGraph.addEdge(2, 4, 3);
 
-    // Add nodes
-    for (int x = 0; x < 5; ++x) {
-        for (int y = 0; y < 5; ++y) {
-            if (!isWall(x, y)) {
-                grid.addNode({x, y});
-            }
+    std::cout << "  Graph edges:\n";
+    std::cout << "    1 - 2 (wt 4), 1 - 3 (wt 2), 2 - 3 (wt 1), 3 - 4 (wt 5), 2 - 4 (wt 3)\n";
+
+    auto mst = kruskal(undirGraph);
+    int totalMSTWeight = 0;
+    std::cout << "  Selected MST edges:\n";
+    for (const auto& edge : mst) {
+        auto [wt, u, v] = edge;
+        std::cout << "    Node " << u << " -- " << v << " (weight: " << wt << ")\n";
+        totalMSTWeight += wt;
+    }
+    std::cout << "  Total MST Weight: " << totalMSTWeight << " (Expected: 6)\n\n";
+
+    // ============================================================================
+    // 2. Tarjan's Strongly Connected Components
+    // ============================================================================
+    std::cout << "[2] Running Tarjan's SCC Algorithm on the Sample Directed Graph:\n";
+    Graph<int, int> directedSample(true); // Directed
+
+    directedSample.addEdge(0, 1, 1);
+    directedSample.addEdge(1, 2, 1);
+    directedSample.addEdge(2, 0, 1);
+    directedSample.addEdge(2, 3, 3);
+    directedSample.addEdge(3, 4, 2);
+    directedSample.addEdge(4, 5, 2);
+    directedSample.addEdge(5, 3, 2);
+    directedSample.addEdge(4, 6, 1);
+    directedSample.addEdge(6, 7, 4);
+    directedSample.addEdge(7, 8, -2);
+    directedSample.addEdge(8, 9, 3);
+    directedSample.addEdge(9, 10, 2);
+    directedSample.addEdge(10, 11, 1);
+    directedSample.addEdge(7, 9, 5);
+    directedSample.addEdge(10, 6, 2);
+
+    TarjanSCC<int, int> tarjan;
+    auto sccs = tarjan.findSCC(directedSample);
+
+    std::cout << "  Found strongly connected components (grouped by curly brackets):\n";
+    for (size_t i = 0; i < sccs.size(); ++i) {
+        std::cout << "    Component " << i + 1 << ": { ";
+        for (const auto& node : sccs[i]) {
+            std::cout << node << " ";
         }
+        std::cout << "}\n";
     }
-
-    // Add edges to adjacent neighbors (up, down, left, right)
-    for (int x = 0; x < 5; ++x) {
-        for (int y = 0; y < 5; ++y) {
-            if (isWall(x, y)) continue;
-
-            std::pair<int, int> curr = {x, y};
-
-            // Connect Right neighbor
-            if (x + 1 < 5 && !isWall(x + 1, y)) {
-                grid.addEdge(curr, {x + 1, y}, 1.0);
-            }
-            // Connect Down neighbor
-            if (y + 1 < 5 && !isWall(x, y + 1)) {
-                grid.addEdge(curr, {x, y + 1}, 1.0);
-            }
-        }
-    }
-
-    std::pair<int, int> start = {0, 0};
-    std::pair<int, int> goal = {4, 4};
-
-    // Run Dijkstra with Stats
-    auto dijkstraResult = dijkstraWithStats(grid, start, goal);
-    
-    // Run A* with Manhattan Heuristic
-    auto astarResult = astar(grid, start, goal, manhattanHeuristic);
-
-    // Print Dijkstra results
-    std::cout << "  Dijkstra Path (from (0,0) to (4,4)):\n";
-    std::cout << "    Path: ";
-    for (size_t i = 0; i < dijkstraResult.path.size(); ++i) {
-        std::cout << "(" << dijkstraResult.path[i].first << "," << dijkstraResult.path[i].second << ")"
-                  << (i + 1 < dijkstraResult.path.size() ? " -> " : "");
-    }
-    std::cout << "\n    Nodes Visited: " << dijkstraResult.nodesVisited << "\n";
-    std::cout << "    Path Cost: " << dijkstraResult.path.size() - 1 << " units\n\n";
-
-    // Print A* results
-    std::cout << "  A* Path (using Manhattan Heuristic):\n";
-    std::cout << "    Path: ";
-    for (size_t i = 0; i < astarResult.path.size(); ++i) {
-        std::cout << "(" << astarResult.path[i].first << "," << astarResult.path[i].second << ")"
-                  << (i + 1 < astarResult.path.size() ? " -> " : "");
-    }
-    std::cout << "\n    Nodes Visited: " << astarResult.nodesVisited << "\n";
-    std::cout << "    Path Cost: " << astarResult.path.size() - 1 << " units\n\n";
-
-    std::cout << "  *Comparison: Both find the optimal cost path around the wall, but\n";
-    std::cout << "   A* visited fewer nodes (" << astarResult.nodesVisited << ") compared to Dijkstra (" 
-              << dijkstraResult.nodesVisited << ") because A* uses the heuristic to focus\n";
-    std::cout << "   exploration directly toward the goal (4, 4).\n\n";
+    std::cout << "  Total Components: " << sccs.size() << " (Expected: 4)\n\n";
 
     // ============================================================================
-    // 2. Bellman-Ford demo on sample graph (containing negative edge weight)
+    // 3. Topological Sort (DAG dependency)
     // ============================================================================
-    std::cout << "[2] Running Bellman-Ford on the Sample Graph (containing a negative weight edge):\n";
+    std::cout << "[3] Running Topological Sort on a DAG:\n";
     
-    Graph<int, int> g(true); // Directed
-    g.addEdge(0, 1, 1);
-    g.addEdge(1, 2, 1);
-    g.addEdge(2, 0, 1);
-    g.addEdge(2, 3, 3);
-    g.addEdge(3, 4, 2);
-    g.addEdge(4, 5, 2);
-    g.addEdge(5, 3, 2);
-    g.addEdge(4, 6, 1);
-    g.addEdge(6, 7, 4);
-    g.addEdge(7, 8, -2); // Negative edge
-    g.addEdge(8, 9, 3);
-    g.addEdge(9, 10, 2);
-    g.addEdge(10, 11, 1);
-    g.addEdge(7, 9, 5);
-    g.addEdge(10, 6, 2);
+    Graph<std::string, int> dag(true);
+    dag.addEdge("CS101", "CS201", 1);
+    dag.addEdge("CS101", "CS202", 1);
+    dag.addEdge("CS201", "CS301", 1);
+    dag.addEdge("CS202", "CS301", 1);
+
+    std::cout << "  DAG Dependencies: CS101 -> CS201/CS202 -> CS301\n";
 
     try {
-        auto bfDist = bellmanFord(g, 0);
-        std::cout << "  Shortest distances from node 0 using Bellman-Ford:\n";
-        std::cout << "  " << std::left << std::setw(10) << "Node" << "Distance\n";
-        std::cout << "  " << std::left << std::setw(10) << "----" << "--------\n";
-        for (int i = 0; i < 12; ++i) {
-            std::cout << "  " << std::left << std::setw(10) << i << bfDist[i] << "\n";
+        auto kahnOrder = topologicalSort(dag);
+        std::cout << "    Kahn's BFS Order: ";
+        for (size_t i = 0; i < kahnOrder.size(); ++i) {
+            std::cout << kahnOrder[i] << (i + 1 < kahnOrder.size() ? " -> " : "");
         }
+        std::cout << "\n";
+
+        auto dfsOrder = topologicalSortDFS(dag);
+        std::cout << "    DFS-Based Order:  ";
+        for (size_t i = 0; i < dfsOrder.size(); ++i) {
+            std::cout << dfsOrder[i] << (i + 1 < dfsOrder.size() ? " -> " : "");
+        }
+        std::cout << "\n";
     } catch (const std::exception& e) {
-        std::cerr << "  Error: " << e.what() << "\n";
+        std::cerr << "    Error: " << e.what() << "\n";
     }
     std::cout << "\n";
 
     // ============================================================================
-    // 3. Bellman-Ford negative cycle detection
+    // 4. Topological Sort Cycle Detection
     // ============================================================================
-    std::cout << "[3] Testing Bellman-Ford Negative Cycle Detection:\n";
+    std::cout << "[4] Testing Topological Sort Cycle Detection:\n";
     
-    Graph<int, int> cycleGraph(true);
-    cycleGraph.addEdge(0, 1, 2);
-    cycleGraph.addEdge(1, 2, -5); // Creates a negative loop: 0 -> 1 -> 2 -> 0 of cost 2 + (-5) + 1 = -2
-    cycleGraph.addEdge(2, 0, 1);
+    Graph<std::string, int> cyclicDag(true);
+    cyclicDag.addEdge("A", "B", 1);
+    cyclicDag.addEdge("B", "C", 1);
+    cyclicDag.addEdge("C", "A", 1); // Creates loop: A -> B -> C -> A
 
-    std::cout << "  Graph contains negative cycle: 0 -(2)-> 1 -(-5)-> 2 -(1)-> 0\n";
+    std::cout << "  Running Topological Sort on cyclic graph A -> B -> C -> A...\n";
     try {
-        std::cout << "  Running Bellman-Ford from node 0...\n";
-        bellmanFord(cycleGraph, 0);
-        std::cout << "  Bellman-Ford succeeded (Unexpected: Negative cycle should have been caught!)\n";
+        topologicalSort(cyclicDag);
+        std::cout << "    Topological sort succeeded (Unexpected: Cycle should have been caught!)\n";
     } catch (const std::runtime_error& e) {
-        std::cout << "  Caught expected exception: \"" << e.what() << "\" (Success! Cycle detected)\n";
+        std::cout << "    Caught expected exception: \"" << e.what() << "\" (Success! Cycle detected)\n";
     }
 
     std::cout << "\n==================================================\n";
-    std::cout << "All A* and Bellman-Ford operations demonstrated successfully!\n";
+    std::cout << "All Connectivity & Sorting algorithms demonstrated successfully!\n";
     std::cout << "==================================================\n";
 
     return 0;
