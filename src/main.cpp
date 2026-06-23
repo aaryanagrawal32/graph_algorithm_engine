@@ -3,17 +3,16 @@
 #include <vector>
 #include "Graph.hpp"
 #include "algorithms/BFS.hpp"
+#include "algorithms/DFS.hpp"
 
 int main() {
     std::cout << "==================================================\n";
-    std::cout << "    Graph Algorithm Engine - Session 03 Demo      \n";
+    std::cout << "    Graph Algorithm Engine - DFS Demonstration    \n";
     std::cout << "==================================================\n\n";
 
-    // 1. Constructing the sample graph specified in data/sample_graph.csv
-    std::cout << "[1] Constructing Sample Graph from spec...\n";
+    // 1. Constructing the 12-node sample graph
+    std::cout << "[1] Constructing Directed Sample Graph...\n";
     Graph<int, int> g(true); // directed graph
-
-    // Edges from CSV: source,destination,weight
     g.addEdge(0, 1, 1);
     g.addEdge(1, 2, 1);
     g.addEdge(2, 0, 1);
@@ -30,58 +29,62 @@ int main() {
     g.addEdge(7, 9, 5);
     g.addEdge(10, 6, 2);
 
-    std::cout << "Sample Graph created successfully!\n";
     std::cout << "Nodes count: " << g.nodeCount() << " (Expected: 12)\n";
     std::cout << "Edges count: " << g.edgeCount() << " (Expected: 15)\n\n";
 
-    // 2. BFS Traversal starting from node 0
-    std::cout << "[2] Running BFS Traversal starting from node 0:\n";
-    std::vector<int> bfsOrder = bfs(g, 0);
-    std::cout << "  BFS traversal order: ";
-    for (size_t i = 0; i < bfsOrder.size(); ++i) {
-        std::cout << bfsOrder[i] << (i + 1 < bfsOrder.size() ? " -> " : "");
+    // 2. Comparing Recursive DFS and Iterative DFS
+    std::cout << "[2] Comparing Recursive and Iterative DFS Traversal (starting from 0):\n";
+    std::vector<int> recDFS = dfs(g, 0);
+    std::vector<int> iterDFS = dfsIterative(g, 0);
+
+    std::cout << "  Recursive DFS: ";
+    for (size_t i = 0; i < recDFS.size(); ++i) {
+        std::cout << recDFS[i] << (i + 1 < recDFS.size() ? " -> " : "");
+    }
+    std::cout << "\n";
+
+    std::cout << "  Iterative DFS: ";
+    for (size_t i = 0; i < iterDFS.size(); ++i) {
+        std::cout << iterDFS[i] << (i + 1 < iterDFS.size() ? " -> " : "");
     }
     std::cout << "\n\n";
+    std::cout << "  *Note: Traversal orders may differ because recursive DFS explores branches\n";
+    std::cout << "  immediately and marks nodes visited on start, while iterative DFS pushes\n";
+    std::cout << "  all neighbors onto the stack and marks them visited when popped.\n\n";
 
-    // Helper lambda to print paths
-    auto printPath = [](const std::string& name, const std::vector<int>& path) {
-        std::cout << "  Shortest path " << name << ": ";
-        if (path.empty()) {
-            std::cout << "UNREACHABLE\n";
-        } else {
-            for (size_t i = 0; i < path.size(); ++i) {
-                std::cout << path[i] << (i + 1 < path.size() ? " -> " : "");
-            }
-            std::cout << "\n";
-        }
-    };
+    // 3. Cycle Detection
+    std::cout << "[3] Testing Cycle Detection (hasCycle):\n";
+    std::cout << "  Sample Graph cycle status: " << (hasCycle(g) ? "CYCLE DETECTED" : "NO CYCLE") 
+              << " (Expected: CYCLE DETECTED)\n";
 
-    // 3. BFS Shortest Path
-    std::cout << "[3] Computing Shortest Paths (using BFS unweighted shortest path):\n";
-    
-    // Path 0 -> 5 (Unweighted shortest path)
-    std::vector<int> path0_5 = bfsShortestPath(g, 0, 5);
-    printPath("0 to 5", path0_5);
+    // Create an acyclic directed graph (Tree)
+    Graph<int, int> tree(true);
+    tree.addEdge(1, 2, 1);
+    tree.addEdge(1, 3, 1);
+    tree.addEdge(2, 4, 1);
+    tree.addEdge(2, 5, 1);
+    std::cout << "  Acyclic Tree cycle status: " << (hasCycle(tree) ? "CYCLE DETECTED" : "NO CYCLE")
+              << " (Expected: NO CYCLE)\n\n";
 
-    // Path 6 -> 11 (Unweighted shortest path: 6 -> 7 -> 9 -> 10 -> 11)
-    // BFS finds the 4-edge path rather than the 5-edge path through node 8.
-    std::vector<int> path6_11 = bfsShortestPath(g, 6, 11);
-    printPath("6 to 11", path6_11);
+    // 4. Connectivity Checks
+    std::cout << "[4] Testing Connectivity Checks (isConnected):\n";
+    std::cout << "  Sample Graph connectivity: " << (isConnected(g) ? "CONNECTED" : "DISCONNECTED")
+              << " (Expected: CONNECTED)\n";
 
-    // Path 7 -> 9 (Unweighted shortest path: 7 -> 9)
-    // Note: The edge weights are 7->9 = 5, and 7->8->9 = -2 + 3 = 1.
-    // In a weighted graph, 7 -> 8 -> 9 is cheaper (cost 1) than 7 -> 9 (cost 5).
-    // But since BFS is unweighted, it will output 7 -> 9. This demonstrates that
-    // BFS is hop-count optimal, not weight optimal!
-    std::vector<int> path7_9 = bfsShortestPath(g, 7, 9);
-    printPath("7 to 9 (Weighted cost = 5, but hop-optimal)", path7_9);
+    // Create a disconnected graph
+    Graph<int, int> disconnectedGraph(false); // undirected
+    disconnectedGraph.addEdge(1, 2, 1);
+    disconnectedGraph.addEdge(3, 4, 1); // Component {1, 2} and Component {3, 4} are separate
+    std::cout << "  Undirected Forest connectivity: " << (isConnected(disconnectedGraph) ? "CONNECTED" : "DISCONNECTED")
+              << " (Expected: DISCONNECTED)\n";
 
-    // Path 5 -> 0 (Unreachable case)
-    std::vector<int> path5_0 = bfsShortestPath(g, 5, 0);
-    printPath("5 to 0 (unreachable)", path5_0);
+    // Add isolated node to sample graph g to make it disconnected
+    g.addNode(100); // 100 is completely isolated
+    std::cout << "  Sample Graph + Isolated Node connectivity: " << (isConnected(g) ? "CONNECTED" : "DISCONNECTED")
+              << " (Expected: DISCONNECTED)\n\n";
 
-    std::cout << "\n==================================================\n";
-    std::cout << "All BFS operations demonstrated successfully!\n";
+    std::cout << "==================================================\n";
+    std::cout << "All DFS operations demonstrated successfully!\n";
     std::cout << "==================================================\n";
 
     return 0;
