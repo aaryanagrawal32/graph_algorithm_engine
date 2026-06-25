@@ -22,9 +22,10 @@ target_link_libraries(graph_engine PRIVATE SFML::Graphics SFML::Window SFML::Sys
 # Uncomment them as those files/directories are added.
 
 # Tests (Google Test)
-# enable_testing()
-# add_subdirectory(tests)
+enable_testing()
+add_subdirectory(tests)
 
 # Benchmarks
-# add_executable(benchmark benchmarks/benchmark.cpp)
-# target_include_directories(benchmark PRIVATE include)
+add_executable(benchmark benchmarks/benchmark.cpp)
+target_include_directories(benchmark PRIVATE include)
+

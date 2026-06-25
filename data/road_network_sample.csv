@@ -1,0 +1,41 @@
+# Road network sample in the [Nodes]/[Edges] format expected by loadFromRoadNetworkCSV
+# This is a simplified representation of a campus road network.
+# Node IDs represent intersections; lat/lon are approximate coordinates.
+
+[Nodes]
+# node_id,latitude,longitude
+101,22.3190,87.3091
+102,22.3185,87.3102
+103,22.3180,87.3115
+104,22.3175,87.3128
+105,22.3170,87.3140
+106,22.3165,87.3155
+107,22.3160,87.3170
+108,22.3155,87.3185
+109,22.3150,87.3200
+110,22.3145,87.3215
+
+[Edges]
+# source_id,destination_id,distance_meters
+101,102,95
+102,101,95
+102,103,110
+103,102,110
+103,104,130
+104,103,130
+104,105,120
+105,104,120
+105,106,150
+106,105,150
+106,107,100
+107,106,100
+107,108,85
+108,107,85
+108,109,140
+109,108,140
+109,110,120
+110,109,120
+102,106,200
+106,102,200
+104,108,180
+108,104,180

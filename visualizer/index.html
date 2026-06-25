@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graph Algorithm Engine Visualizer</title>
+    <!-- Google Fonts: Inter for modern typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- D3.js v7 CDN -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Control Panel -->
+        <aside class="control-panel">
+            <header class="panel-header">
+                <div class="logo-container">
+                    <div class="logo-glow"></div>
+                    <span class="logo-icon">⬢</span>
+                    <h1>Graph Engine</h1>
+                </div>
+                <p class="subtitle">Interactive Algorithm Visualizer</p>
+            </header>
+
+            <!-- File Upload Section (Hidden by default once loaded) -->
+            <section class="panel-section" id="upload-section">
+                <h2 class="section-title">Data Source</h2>
+                <div class="upload-zone" id="drop-zone">
+                    <span class="upload-icon">✦</span>
+                    <p class="upload-text">Drag & drop <strong>graph.json</strong> or click to browse</p>
+                    <input type="file" id="file-input" accept=".json" multiple style="display: none;">
+                </div>
+                <div class="file-list" id="uploaded-files-list">
+                    <!-- Dynamic loaded files status -->
+                </div>
+            </section>
+
+            <!-- Status Section -->
+            <section class="panel-section" id="status-section">
+                <div class="status-indicator">
+                    <span class="status-dot green"></span>
+                    <span class="status-label" id="load-status">Graph: Not Loaded</span>
+                </div>
+            </section>
+
+            <!-- Algorithm Settings -->
+            <section class="panel-section">
+                <h2 class="section-title">Configuration</h2>
+                
+                <div class="control-group">
+                    <label for="algorithm-select">Select Algorithm</label>
+                    <select id="algorithm-select" disabled>
+                        <option value="" disabled selected>-- Choose an Algorithm --</option>
+                        <option value="bfs">Breadth-First Search (BFS)</option>
+                        <option value="dfs">Depth-First Search (DFS)</option>
+                        <option value="dijkstra">Dijkstra's Shortest Path</option>
+                        <option value="astar">A* shortest path</option>
+                        <option value="kruskal">Kruskal's MST</option>
+                        <option value="tarjan">Tarjan's SCC</option>
+                    </select>
+                </div>
+
+                <div class="control-row path-nodes-select" style="display: none;">
+                    <div class="control-group half">
+                        <label for="start-node-select">Start Node</label>
+                        <select id="start-node-select"></select>
+                    </div>
+                    <div class="control-group half">
+                        <label for="end-node-select">End Node</label>
+                        <select id="end-node-select"></select>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Simulation Controls -->
+            <section class="panel-section">
+                <h2 class="section-title">Simulation Controls</h2>
+                <div class="playback-controls">
+                    <button id="btn-prev" class="control-btn" title="Previous Step" disabled>⏮</button>
+                    <button id="btn-play" class="control-btn play" title="Play / Pause" disabled>▶</button>
+                    <button id="btn-next" class="control-btn" title="Next Step" disabled>⏭</button>
+                    <button id="btn-reset" class="control-btn" title="Reset Simulation" disabled>⟲</button>
+                </div>
+
+                <div class="control-group speed-slider-group">
+                    <div class="slider-labels">
+                        <span>Speed</span>
+                        <span id="speed-value">1.0x</span>
+                    </div>
+                    <input type="range" id="speed-slider" min="100" max="2000" step="100" value="500" class="styled-slider">
+                </div>
+            </section>
+
+            <!-- Execution Logs / Info -->
+            <section class="panel-section flex-grow">
+                <h2 class="section-title">Execution Console</h2>
+                <div class="console-output" id="console-log">
+                    <div class="console-line system">System initialized. Waiting for graph.json...</div>
+                </div>
+            </section>
+        </aside>
+
+        <!-- Main Visualization Canvas -->
+        <main class="visualization-area">
+            <!-- Viewport controls overlay -->
+            <div class="canvas-controls">
+                <button id="btn-zoom-in" class="canvas-btn" title="Zoom In">+</button>
+                <button id="btn-zoom-out" class="canvas-btn" title="Zoom Out">−</button>
+                <button id="btn-zoom-fit" class="canvas-btn" title="Fit to Screen">⛶</button>
+                <button id="btn-toggle-labels" class="canvas-btn active" title="Toggle Labels">🏷</button>
+            </div>
+
+            <!-- Legend Overlay -->
+            <div class="legend-overlay" id="legend">
+                <h3>Legend</h3>
+                <div class="legend-items" id="legend-items-list">
+                    <div class="legend-item"><span class="legend-color node-default"></span> Default Node</div>
+                    <div class="legend-item"><span class="legend-color edge-default"></span> Default Edge</div>
+                </div>
+            </div>
+
+            <!-- Main SVG Canvas -->
+            <svg id="graph-svg"></svg>
+        </main>
+    </div>
+
+    <!-- Script Entry -->
+    <script src="graph.js"></script>
+</body>
+</html>
