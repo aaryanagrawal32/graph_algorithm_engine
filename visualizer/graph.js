@@ -1,10 +1,17 @@
 /* ============================================================================
    GRAPH ENGINE VISUALIZER - D3.js ANIMATION CORE
+   
+   This file contains all the JavaScript logic for the visualizer.
+   It handles reading the JSON files, running the D3 physics engine,
+   and animating the algorithms using CSS class toggling.
    ============================================================================ */
 
 // Global State
+// We use 'let' instead of C++ types like 'int' or 'string'. These variables 
+// are accessible globally so all functions can read/modify them.
 let graphData = null;       // Holds { nodes: [...], links: [...] }
 let algorithmData = {
+    // This object acts like a C++ struct or std::unordered_map
     bfs: null,             // { steps: [...] }
     dfs: null,             // { steps: [...] }
     dijkstra: null,        // { steps: [...] } (shortest path nodes)
@@ -15,7 +22,7 @@ let algorithmData = {
 
 // Simulation State
 let activeAlgorithm = "";
-let currentStep = 0;
+let currentStep = 0;     // Acts as our playhead frame counter
 let maxSteps = 0;
 let isPlaying = false;
 let playbackInterval = null;
@@ -44,6 +51,10 @@ const loadedFilesStatus = {
 
 /* ============================================================================
    INITIALIZATION & DOM EVENTS
+   
+   In web development, we don't have a blocking main() function. Instead, we
+   use an Event-Driven model. We tell the browser to wait until the HTML is fully
+   loaded (DOMContentLoaded), and then we attach event listeners to buttons.
    ============================================================================ */
 document.addEventListener("DOMContentLoaded", () => {
     setupUI();
@@ -141,21 +152,36 @@ function setupSVG() {
 
 /* ============================================================================
    CONSOLE / TERMINAL HELPERS
+   
+   Simulates a C++ std::cout terminal right on the webpage by dynamically 
+   creating HTML <div> elements and appending them to the DOM.
    ============================================================================ */
 function logToConsole(message, type = "info") {
     const consoleLog = document.getElementById("console-log");
+    
+    // Create a brand new HTML <div> tag in memory
     const line = document.createElement("div");
+    // Assign a CSS class to style it (e.g., green for success, red for error)
     line.className = `console-line ${type}`;
     
     const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    
+    // Inject raw HTML into our new div using Template Literals (``)
     line.innerHTML = `<span style="color: #6B7280; font-size: 9px; margin-right: 6px;">[${timestamp}]</span>${message}`;
     
+    // Attach the new div to the actual webpage
     consoleLog.appendChild(line);
+    
+    // Auto-scroll to the bottom of the terminal
     consoleLog.scrollTop = consoleLog.scrollHeight;
 }
 
 /* ============================================================================
    FILE UPLOAD & DRAG-AND-DROP HANDLERS
+   
+   Because of browser security (CORS), we cannot use standard C++ file readers 
+   (like std::ifstream) on local files. Instead, we use HTML Drag-and-Drop and
+   the asynchronous FileReader API.
    ============================================================================ */
 function setupDragAndDrop() {
     const dropZone = document.getElementById("drop-zone");
@@ -308,6 +334,10 @@ async function tryAutoLoadFromServer() {
 
 /* ============================================================================
    D3 FORCE DIRECTED SIMULATION
+   
+   If the JSON graph nodes don't have explicit X/Y coordinates, we use a 
+   physics engine to automatically push them apart and draw them beautifully.
+   This section handles binding our JavaScript data to HTML <svg> elements.
    ============================================================================ */
 function loadGraph(data) {
     graphData = data;
@@ -464,7 +494,11 @@ function fitGraphToScreen() {
 }
 
 /* ============================================================================
-   ALGORITHM SELECTION & CONTROL
+   ALGORITHM SELECTION & PLAYBACK CONTROL
+   
+   This section handles the media buttons (Play, Pause, Step).
+   It uses JavaScript timers (setInterval) to create an animation loop 
+   that increments the 'currentStep' variable.
    ============================================================================ */
 function setAlgorithm(algo) {
     pause();
@@ -483,7 +517,7 @@ function setAlgorithm(algo) {
     if (algo === "bfs" || algo === "dfs") {
         maxSteps = algorithmData[algo].steps.length;
     } else if (algo === "dijkstra" || algo === "astar") {
-        maxSteps = algorithmData[algo].path ? algorithmData[algo].path.length : 0;
+        maxSteps = algorithmData[algo].steps ? algorithmData[algo].steps.length : 0;
     } else if (algo === "kruskal") {
         maxSteps = algorithmData[algo].mst ? algorithmData[algo].mst.length : 0;
     } else if (algo === "tarjan") {
@@ -666,6 +700,10 @@ function resetVisualStates() {
 
 /* ============================================================================
    FRAME RENDER LOGIC BY ALGORITHM
+   
+   The Golden Rule of Web Styling: JavaScript does not manipulate colors directly.
+   JavaScript simply adds or removes CSS classes (like '.visited' or '.path-node')
+   and the CSS engine instantly applies the predefined colors/glows to the elements.
    ============================================================================ */
 function updateSimulationFrame() {
     resetVisualStates();
@@ -698,7 +736,7 @@ function renderBFSDFSFrame() {
 }
 
 function renderPathfindingFrame() {
-    const path = algorithmData[activeAlgorithm].path;
+    const path = algorithmData[activeAlgorithm].steps;
     if (!path || path.length === 0) return;
 
     // Reveal path nodes up to currentStep

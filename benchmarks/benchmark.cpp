@@ -183,15 +183,15 @@ Graph<int, int> generateMSTGraph(int numNodes, bool dense) {
 // Benchmarking Routines
 // ============================================================================
 void runBFSvsDFS() {
-    std::cout << "\n======================================================================\n";
-    std::cout << "                   BENCHMARK 1: BFS vs DFS Traversal\n";
-    std::cout << "======================================================================\n";
-    std::cout << std::left << std::setw(12) << "Node Count"
-              << " | " << std::setw(14) << "BFS Time (ms)"
-              << " | " << std::setw(14) << "BFS Peak Queue"
-              << " | " << std::setw(14) << "DFS Time (ms)"
-              << " | " << std::setw(14) << "DFS Peak Stack" << "\n";
-    std::cout << "----------------------------------------------------------------------\n";
+    std::cout << "\n============================================================\n";
+    std::cout << "             BENCHMARK 1: BFS vs DFS Traversal\n";
+    std::cout << "============================================================\n";
+    std::cout << std::left << std::setw(8) << "Nodes"
+              << " | " << std::setw(10) << "BFS(ms)"
+              << " | " << std::setw(10) << "BFS Queue"
+              << " | " << std::setw(10) << "DFS(ms)"
+              << " | " << std::setw(10) << "DFS Stack" << "\n";
+    std::cout << "------------------------------------------------------------\n";
 
     std::vector<int> sizes = {100, 1000, 10000, 100000};
     for (int N : sizes) {
@@ -199,26 +199,26 @@ void runBFSvsDFS() {
         auto bfsRes = benchmarkBFS(g, 0);
         auto dfsRes = benchmarkDFS(g, 0);
 
-        std::cout << std::left << std::setw(12) << N << " | "
+        std::cout << std::left << std::setw(8) << N << " | "
                   << std::fixed << std::setprecision(3)
-                  << std::setw(14) << bfsRes.first << " | "
-                  << std::setw(14) << bfsRes.second << " | "
-                  << std::setw(14) << dfsRes.first << " | "
-                  << std::setw(14) << dfsRes.second << "\n";
+                  << std::setw(10) << bfsRes.first << " | "
+                  << std::setw(10) << bfsRes.second << " | "
+                  << std::setw(10) << dfsRes.first << " | "
+                  << std::setw(10) << dfsRes.second << "\n";
     }
-    std::cout << "======================================================================\n";
+    std::cout << "============================================================\n";
 }
 
 void runDijkstraVsAStar() {
-    std::cout << "\n======================================================================\n";
-    std::cout << "             BENCHMARK 2: Dijkstra vs A* on 2D Grid Graph\n";
-    std::cout << "======================================================================\n";
-    std::cout << std::left << std::setw(15) << "Grid Size"
-              << " | " << std::setw(18) << "Dijkstra Time (ms)"
-              << " | " << std::setw(18) << "Dijkstra Visited"
-              << " | " << std::setw(16) << "A* Time (ms)"
-              << " | " << std::setw(16) << "A* Visited Nodes" << "\n";
-    std::cout << "----------------------------------------------------------------------\n";
+    std::cout << "\n============================================================\n";
+    std::cout << "         BENCHMARK 2: Dijkstra vs A* on 2D Grid Graph\n";
+    std::cout << "============================================================\n";
+    std::cout << std::left << std::setw(10) << "Grid Size"
+              << " | " << std::setw(10) << "Dij(ms)"
+              << " | " << std::setw(12) << "Dij Visited"
+              << " | " << std::setw(10) << "A*(ms)"
+              << " | " << std::setw(12) << "A* Visited" << "\n";
+    std::cout << "------------------------------------------------------------\n";
 
     // 10x10 (100 nodes), 32x32 (~1000 nodes), 100x100 (10000 nodes)
     std::vector<std::pair<int, int>> dimensions = {{10, 10}, {32, 32}, {100, 100}};
@@ -238,25 +238,25 @@ void runDijkstraVsAStar() {
         double astarTime = t2.stop();
 
         std::string gridStr = std::to_string(W) + "x" + std::to_string(H);
-        std::cout << std::left << std::setw(15) << gridStr << " | "
+        std::cout << std::left << std::setw(10) << gridStr << " | "
                   << std::fixed << std::setprecision(3)
-                  << std::setw(18) << dijTime << " | "
-                  << std::setw(18) << dijRes.nodesVisited << " | "
-                  << std::setw(16) << astarTime << " | "
-                  << std::setw(16) << astarRes.nodesVisited << "\n";
+                  << std::setw(10) << dijTime << " | "
+                  << std::setw(12) << dijRes.nodesVisited << " | "
+                  << std::setw(10) << astarTime << " | "
+                  << std::setw(12) << astarRes.nodesVisited << "\n";
     }
-    std::cout << "======================================================================\n";
+    std::cout << "============================================================\n";
 }
 
 void runKruskalMST() {
-    std::cout << "\n======================================================================\n";
-    std::cout << "             BENCHMARK 3: Kruskal's MST (Sparse vs Dense)\n";
-    std::cout << "======================================================================\n";
-    std::cout << std::left << std::setw(12) << "Node Count"
-              << " | " << std::setw(12) << "Graph Density"
-              << " | " << std::setw(12) << "Edge Count"
-              << " | " << std::setw(20) << "Kruskal Time (ms)" << "\n";
-    std::cout << "----------------------------------------------------------------------\n";
+    std::cout << "\n============================================================\n";
+    std::cout << "         BENCHMARK 3: Kruskal's MST (Sparse vs Dense)\n";
+    std::cout << "============================================================\n";
+    std::cout << std::left << std::setw(10) << "Nodes"
+              << " | " << std::setw(10) << "Density"
+              << " | " << std::setw(10) << "Edges"
+              << " | " << std::setw(15) << "Kruskal(ms)" << "\n";
+    std::cout << "------------------------------------------------------------\n";
 
     // Sparse benchmarks
     std::vector<int> sparseSizes = {100, 1000, 5000, 10000};
@@ -266,14 +266,14 @@ void runKruskalMST() {
         auto mst = kruskal(g);
         double timeMs = t.stop();
 
-        std::cout << std::left << std::setw(12) << N << " | "
-                  << std::setw(12) << "Sparse" << " | "
-                  << std::setw(12) << g.edgeCount() << " | "
+        std::cout << std::left << std::setw(10) << N << " | "
+                  << std::setw(10) << "Sparse" << " | "
+                  << std::setw(10) << g.edgeCount() << " | "
                   << std::fixed << std::setprecision(3)
-                  << std::setw(20) << timeMs << "\n";
+                  << std::setw(15) << timeMs << "\n";
     }
 
-    std::cout << "----------------------------------------------------------------------\n";
+    std::cout << "------------------------------------------------------------\n";
 
     // Dense benchmarks
     std::vector<int> denseSizes = {100, 500, 1000, 2000};
@@ -283,19 +283,19 @@ void runKruskalMST() {
         auto mst = kruskal(g);
         double timeMs = t.stop();
 
-        std::cout << std::left << std::setw(12) << N << " | "
-                  << std::setw(12) << "Dense" << " | "
-                  << std::setw(12) << g.edgeCount() << " | "
+        std::cout << std::left << std::setw(10) << N << " | "
+                  << std::setw(10) << "Dense" << " | "
+                  << std::setw(10) << g.edgeCount() << " | "
                   << std::fixed << std::setprecision(3)
-                  << std::setw(20) << timeMs << "\n";
+                  << std::setw(15) << timeMs << "\n";
     }
-    std::cout << "======================================================================\n";
+    std::cout << "============================================================\n";
 }
 
 int main() {
-    std::cout << "======================================================================\n";
-    std::cout << "                  GRAPH ENGINE PERFORMANCE BENCHMARKS\n";
-    std::cout << "======================================================================\n";
+    std::cout << "============================================================\n";
+    std::cout << "            GRAPH ENGINE PERFORMANCE BENCHMARKS\n";
+    std::cout << "============================================================\n";
 
     runBFSvsDFS();
     runDijkstraVsAStar();

@@ -316,6 +316,7 @@ cmake --build build
 # Step 4: Run all tests
 cd build
 ctest --output-on-failure
+cd ..
 
 # Step 5: Run benchmarks
 ./build/benchmark.exe

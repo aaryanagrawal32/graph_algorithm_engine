@@ -73,7 +73,7 @@ void exportToJSON(
         for (const auto& edge : g.neighbors(u)) {
             // For undirected graphs, each edge u-v is listed in both u and v.
             // In D3.js, we can export both or just one. Exporting all is safer
-            // for directed, and harmless for undirected.
+            // for directed, and harmless for undirected.0
             if (!firstLink) {
                 file << ",\n";
             }

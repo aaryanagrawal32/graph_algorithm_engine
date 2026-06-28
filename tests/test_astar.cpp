@@ -76,7 +76,7 @@ TEST(AStarTest, GridWithWall) {
 // Test 5: Performance Test (A* vs Zero Heuristic / Dijkstra)
 TEST(AStarTest, PerformanceBench) {
     Graph<std::pair<int, int>, double> g(false);
-    int size = 20; // 20x20 grid (400 nodes)
+    int size = 40; // 40x40 grid (1600 nodes)
     for (int x = 0; x < size; ++x) {
         for (int y = 0; y < size; ++y) {
             g.addNode({x, y});
@@ -91,7 +91,7 @@ TEST(AStarTest, PerformanceBench) {
     }
 
     std::pair<int, int> start = {0, 0};
-    std::pair<int, int> goal = {size - 1, size - 1};
+    std::pair<int, int> goal = {19, 19};
 
     auto resAStar = astar(g, start, goal, manhattanHeuristic);
     auto resDijkstra = astar(g, start, goal, zeroHeuristic); // zero heuristic = Dijkstra

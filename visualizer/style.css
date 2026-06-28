@@ -1,5 +1,9 @@
 /* ============================================================================
    DESIGN SYSTEM & GLOBAL VARIABLES
+   
+   CSS Variables (Custom Properties): Defined inside :root so they can be 
+   reused throughout the document using var(--variable-name). This makes 
+   changing themes or colors incredibly easy.
    ============================================================================ */
 :root {
     --bg-app: #0B0F19;
@@ -56,6 +60,11 @@ body {
 
 /* ============================================================================
    SIDEBAR / CONTROL PANEL (GLASSMORPHISM)
+   
+   Glassmorphism: A modern UI trend that uses translucent backgrounds with 
+   background blur (backdrop-filter) to simulate frosted glass.
+   Flexbox: display: flex makes it easy to stack elements vertically (flex-direction: column) 
+   and add spacing between them (gap).
    ============================================================================ */
 .control-panel {
     width: 420px;
@@ -308,11 +317,13 @@ select {
     width: 100%;
 }
 
+/* The :not(:disabled) pseudo-class ensures we only show hover/focus effects if it is enabled */
 select:focus:not(:disabled) {
     border-color: var(--primary);
     box-shadow: 0 0 0 2px var(--primary-glow);
 }
 
+/* The :disabled pseudo-class lets us style elements automatically when JS disables them */
 select:disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -604,6 +615,9 @@ select:disabled {
 
 /* ============================================================================
    SVG GRAPH ELEMENT STYLES (D3.js)
+   
+   Note: We don't style these elements using JavaScript. JavaScript just binds 
+   the data and gives them CSS classes. These rules instantly style them!
    ============================================================================ */
 
 /* Links (Edges) */

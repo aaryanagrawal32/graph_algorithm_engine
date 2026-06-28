@@ -20,7 +20,8 @@ graph_algorithm_engine/
 │   ├── 01_foundations/         # C++ & Graph API fundamentals
 │   ├── 02_algorithms/          # Side-by-side walk-through of all 7 algorithms
 │   ├── 03_project_files/       # Deep dives into main, benchmark, tests, utils, CMake
-│   └── 04_reference/           # Cheat sheets, visual walkthroughs, Q&A prep
+│   ├── 04_reference/           # Cheat sheets, visual walkthroughs, Q&A prep
+│   └── 05_visualizer/          # Beginner guide to D3.js, HTML, CSS, and JS vs C++
 ├── include/
 │   ├── Graph.hpp               # Templated Adjacency-List Graph & SafeHash
 │   ├── algorithms/             # Core Graph Algorithms (Header-Only)
