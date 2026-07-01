@@ -9,13 +9,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 # Compiler flags
 add_compile_options(-Wall -Wextra -O2)
 
-# Find SFML (Required for the visualizer in later phases)
-find_package(SFML COMPONENTS Graphics Window System REQUIRED)
-
 # Main executable
 add_executable(graph_engine src/main.cpp)
 target_include_directories(graph_engine PRIVATE include)
-target_link_libraries(graph_engine PRIVATE SFML::Graphics SFML::Window SFML::System)
 
 # NOTE: The following directories/targets are commented out for Session 01
 # as they will be created in later phases of the project.

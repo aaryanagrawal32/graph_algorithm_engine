@@ -1,8 +1,5 @@
 # High-Performance Graph Algorithm Engine
 
-![Visualizer Demo](docs/assets/demo.gif)
-*(Placeholder: Replace this link with an actual screenshot or GIF of your visualizer)*
-
 A robust, modern C++17 Graph Algorithm Engine featuring a generic templated Graph API, 7 industry-standard graph algorithms, high-resolution RAII performance timers, an extensive Google Test suite, a high-throughput benchmarking suite, and a premium D3.js force-directed interactive visualizer.
 
 ---
@@ -15,7 +12,6 @@ The codebase is structured following professional C++ conventions:
 graph_algorithm_engine/
 ├── CMakeLists.txt              # Root CMake configuration (enables tests, benchmarks, main)
 ├── README.md                   # Comprehensive documentation
-├── compile_commands.json       # Clangd/IntelliSense compiler command db
 ├── data/
 │   └── sample_graph.csv        # Directed graph dataset with negative weights
 ├── docs/                       # Master Line-by-Line Documentation & Guides
@@ -83,8 +79,8 @@ The project uses standard **CMake** and is fully compatible with **MinGW / GCC**
 
 ### 1. Prerequisites
 - A C++17 compiler (e.g., GCC 8+, Clang 5+, MSVC 2017+).
-- **SFML 3.x** installed (required for visualizer graphics targets in compiling).
 - **CMake 3.15** or higher.
+- No additional libraries required — Google Test is fetched automatically at build time via `FetchContent`.
 
 ### 2. Build Instructions
 Open your terminal and run the following commands to compile the main demo, unit tests, and benchmarks:
