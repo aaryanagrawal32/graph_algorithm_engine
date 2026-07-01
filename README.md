@@ -1,5 +1,8 @@
 # High-Performance Graph Algorithm Engine
 
+![Visualizer Demo](docs/assets/demo.gif)
+*(Placeholder: Replace this link with an actual screenshot or GIF of your visualizer)*
+
 A robust, modern C++17 Graph Algorithm Engine featuring a generic templated Graph API, 7 industry-standard graph algorithms, high-resolution RAII performance timers, an extensive Google Test suite, a high-throughput benchmarking suite, and a premium D3.js force-directed interactive visualizer.
 
 ---

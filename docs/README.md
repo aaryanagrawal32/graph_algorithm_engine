@@ -8,11 +8,11 @@ Welcome. This folder contains **line-by-line explanations** for every file in th
 
 | Your Background | Start Here |
 |---|---|
-| New to C++ — know Python or Java | Read `01_foundations/03_CPP_Syntax_Reference.md` first, then follow the Reading Path below |
+| New to C++ — know Python or Java | Read [01_foundations/03_CPP_Syntax_Reference.md](./01_foundations/03_CPP_Syntax_Reference.md) first, then follow the Reading Path below |
 | Know C++ basics, new to graph algorithms | Jump straight to the Reading Path |
-| Preparing for a coding interview | Go directly to `04_reference/Interview_QandA.md` + `04_reference/Algorithm_Cheat_Sheet.md` |
+| Preparing for a coding interview | Go directly to [04_reference/Interview_QandA.md](./04_reference/Interview_QandA.md) + [04_reference/Algorithm_Cheat_Sheet.md](./04_reference/Algorithm_Cheat_Sheet.md) |
 | Debugging the project | Go to the specific file's explanation |
-| Just want a quick overview | Read `04_reference/Algorithm_Cheat_Sheet.md` (2 pages, covers everything) |
+| Just want a quick overview | Read [04_reference/Algorithm_Cheat_Sheet.md](./04_reference/Algorithm_Cheat_Sheet.md) (2 pages, covers everything) |
 
 ---
 
@@ -74,11 +74,12 @@ Follow this order. Each step builds on the previous one.
 
 | Step | File | What You'll Learn |
 |---|---|---|
-| 1 | `01_foundations/03_CPP_Syntax_Reference.md` | Every C++ syntax feature used in this project, explained in plain English |
-| 2 | `01_foundations/01_Graph_Class.md` | The core `Graph<NodeType, WeightType>` class — this is the foundation everything else builds on |
-| 3 | `01_foundations/02_Graph_Advanced_Concepts.md` | Templates, hash maps, iterators — the C++ machinery behind the Graph class |
+| 1 | [01_foundations/03_CPP_Syntax_Reference.md](./01_foundations/03_CPP_Syntax_Reference.md) | Every C++ syntax feature used in this project, explained in plain English |
+| 2 | [01_foundations/01_Graph_Class.md](./01_foundations/01_Graph_Class.md) | The core `Graph<NodeType, WeightType>` class — this is the foundation everything else builds on |
+| 3 | [01_foundations/02_Graph_Advanced_Concepts.md](./01_foundations/02_Graph_Advanced_Concepts.md) | Templates, hash maps, iterators — the C++ machinery behind the Graph class |
+| 4 | [06_cpp_concepts/01_IO_Manipulators.md](./06_cpp_concepts/01_IO_Manipulators.md) | C++ stream formatting (`std::setw`, `std::left`) for building perfect console tables |
 
-**Checkpoint**: After step 3, you should understand what `Graph<int, double> g(true)` means and be able to call `g.addEdge(1, 2, 4.5)` and `g.neighbors(1)`.
+**Checkpoint**: After step 4, you should understand what `Graph<int, double> g(true)` means and be able to call `g.addEdge(1, 2, 4.5)` and `g.neighbors(1)`.
 
 ---
 
@@ -86,7 +87,7 @@ Follow this order. Each step builds on the previous one.
 
 | Step | File | What You'll Learn |
 |---|---|---|
-| 4 | `02_algorithms/01_BFS_DFS.md` | BFS (queue, level-order, shortest unweighted path) and DFS (stack/recursion, cycle detection) |
+| 5 | [02_algorithms/01_BFS_DFS.md](./02_algorithms/01_BFS_DFS.md) | BFS (queue, level-order, shortest unweighted path) and DFS (stack/recursion, cycle detection) |
 
 **Checkpoint**: You should be able to trace BFS and DFS by hand on a small graph (5-6 nodes) and predict the visit order.
 
@@ -96,9 +97,9 @@ Follow this order. Each step builds on the previous one.
 
 | Step | File | What You'll Learn |
 |---|---|---|
-| 5 | `02_algorithms/02_Dijkstra.md` | Priority queue, min-heap, stale entries, edge relaxation — the most important single algorithm here |
-| 6 | `02_algorithms/03_AStar.md` | Heuristics, f(n)=g(n)+h(n), admissibility — Dijkstra with a guide |
-| 7 | `02_algorithms/04_BellmanFord.md` | Negative weights, V-1 iterations, negative cycle detection |
+| 6 | [02_algorithms/02_Dijkstra.md](./02_algorithms/02_Dijkstra.md) | Priority queue, min-heap, stale entries, edge relaxation — the most important single algorithm here |
+| 7 | [02_algorithms/03_AStar.md](./02_algorithms/03_AStar.md) | Heuristics, f(n)=g(n)+h(n), admissibility — Dijkstra with a guide |
+| 8 | [02_algorithms/04_BellmanFord.md](./02_algorithms/04_BellmanFord.md) | Negative weights, V-1 iterations, negative cycle detection |
 
 **Checkpoint**: Given the graph `A--4--B--1--C--5--D` and `A--2--C`, you should be able to trace Dijkstra's algorithm step-by-step and know why A* would finish faster.
 
@@ -108,9 +109,9 @@ Follow this order. Each step builds on the previous one.
 
 | Step | File | What You'll Learn |
 |---|---|---|
-| 8 | `02_algorithms/05_Kruskal_MST.md` | Disjoint Set Union (Union-Find), path compression, Minimum Spanning Trees |
-| 9 | `02_algorithms/06_TarjanSCC.md` | The hardest algorithm — disc/low arrays, SCC root condition, stack-based extraction |
-| 10 | `02_algorithms/07_TopologicalSort.md` | Kahn's BFS-based approach, DFS post-order, cycle detection |
+| 9 | [02_algorithms/05_Kruskal_MST.md](./02_algorithms/05_Kruskal_MST.md) | Disjoint Set Union (Union-Find), path compression, Minimum Spanning Trees |
+| 10 | [02_algorithms/06_TarjanSCC.md](./02_algorithms/06_TarjanSCC.md) | The hardest algorithm — disc/low arrays, SCC root condition, stack-based extraction |
+| 11 | [02_algorithms/07_TopologicalSort.md](./02_algorithms/07_TopologicalSort.md) | Kahn's BFS-based approach, DFS post-order, cycle detection |
 
 ---
 
@@ -118,21 +119,33 @@ Follow this order. Each step builds on the previous one.
 
 | Step | File | What You'll Learn |
 |---|---|---|
-| 11 | `03_project_files/04_Utils.md` | RAII timers, CSV file parsing, JSON export |
-| 12 | `03_project_files/01_Main.md` | How the demo program ties all algorithms together |
-| 13 | `03_project_files/02_Benchmark.md` | Performance measurement, random graph generation, table formatting |
-| 14 | `03_project_files/03_Tests.md` | Google Test macros, how unit tests verify correctness |
-| 15 | `03_project_files/05_CMake_And_Data.md` | CMake build system, FetchContent, data file formats |
+| 12 | [03_project_files/04_Utils.md](./03_project_files/04_Utils.md) | RAII timers, CSV file parsing, JSON export |
+| 13 | [03_project_files/01_Main.md](./03_project_files/01_Main.md) | How the demo program ties all algorithms together |
+| 14 | [03_project_files/02_Benchmark.md](./03_project_files/02_Benchmark.md) | Performance measurement, random graph generation, table formatting |
+| 15 | [03_project_files/03_Tests.md](./03_project_files/03_Tests.md) | Google Test macros, how unit tests verify correctness |
+| 16 | [03_project_files/05_CMake_And_Data.md](./03_project_files/05_CMake_And_Data.md) | CMake build system, FetchContent, data file formats |
 
 ---
 
-### 🏁 Phase 6 — Review & Interview Prep
+### 🟣 Phase 6 — The Web Visualizer (Web Stack)
 
 | Step | File | What You'll Learn |
 |---|---|---|
-| 16 | `04_reference/Algorithm_Cheat_Sheet.md` | Side-by-side comparison of all 7 algorithms — great for review |
-| 17 | `04_reference/Visual_Walkthroughs.md` | ASCII-art step-by-step traces — use these to verify your mental model |
-| 18 | `04_reference/Interview_QandA.md` | 40+ interview questions with full answers — use this to practice |
+| 17 | [05_visualizer/00_JS_vs_CPP.md](./05_visualizer/00_JS_vs_CPP.md) | A crash course on JavaScript syntax for C++ developers |
+| 18 | [05_visualizer/01_IndexHTML.md](./05_visualizer/01_IndexHTML.md) | The HTML skeleton, inputs, and UI layout |
+| 19 | [05_visualizer/02_StyleCSS.md](./05_visualizer/02_StyleCSS.md) | Glassmorphic CSS styling and animations |
+| 20 | [05_visualizer/03_GraphJS.md](./05_visualizer/03_GraphJS.md) | The main D3.js force-directed graph logic |
+| 21 | [05_visualizer/web_stack_tutorials/](./05_visualizer/web_stack_tutorials/) | Deep-dive tutorials into specific parts of the visualizer's code |
+
+---
+
+### 🏁 Phase 7 — Review & Interview Prep
+
+| Step | File | What You'll Learn |
+|---|---|---|
+| 22 | [04_reference/Algorithm_Cheat_Sheet.md](./04_reference/Algorithm_Cheat_Sheet.md) | Side-by-side comparison of all 7 algorithms — great for review |
+| 23 | [04_reference/Visual_Walkthroughs.md](./04_reference/Visual_Walkthroughs.md) | ASCII-art step-by-step traces — use these to verify your mental model |
+| 24 | [04_reference/Interview_QandA.md](./04_reference/Interview_QandA.md) | 40+ interview questions with full answers — use this to practice |
 
 ---
 
@@ -140,27 +153,28 @@ Follow this order. Each step builds on the previous one.
 
 | Topic | File |
 |---|---|
-| `template<typename T>` | `01_foundations/03_CPP_Syntax_Reference.md` → Templates section |
-| `#pragma once` | `01_foundations/03_CPP_Syntax_Reference.md` → Header Guards section |
-| `std::unordered_map` | `01_foundations/02_Graph_Advanced_Concepts.md` |
-| `std::priority_queue` with `greater<>` | `02_algorithms/02_Dijkstra.md` → Part 0 |
-| Why BFS finds shortest path | `02_algorithms/01_BFS_DFS.md` → BFS section |
-| Stale entry optimization | `02_algorithms/02_Dijkstra.md` → Part 2 (manual trace) |
-| `f(n) = g(n) + h(n)` formula | `02_algorithms/03_AStar.md` |
-| What "admissible heuristic" means | `02_algorithms/03_AStar.md` |
-| Why V-1 iterations in Bellman-Ford | `02_algorithms/04_BellmanFord.md` |
-| Path compression in DSU | `02_algorithms/05_Kruskal_MST.md` |
-| `disc[]` and `low[]` in Tarjan's | `02_algorithms/06_TarjanSCC.md` |
-| `low[u] == disc[u]` SCC root condition | `02_algorithms/06_TarjanSCC.md` |
-| Kahn's algorithm | `02_algorithms/07_TopologicalSort.md` |
-| RAII timer | `03_project_files/04_Utils.md` → Timer section |
-| CSV parsing with `stringstream` | `03_project_files/04_Utils.md` → Loader section |
-| `EXPECT_EQ` vs `ASSERT_EQ` | `03_project_files/03_Tests.md` |
-| `FetchContent` for GoogleTest | `03_project_files/03_Tests.md` → CMakeLists section |
-| `std::mt19937` random numbers | `03_project_files/02_Benchmark.md` |
-| Structured binding `auto [a, b]` | `03_project_files/01_Main.md` |
-| `try/catch` exceptions | `03_project_files/01_Main.md` |
-| `add_executable` in CMake | `03_project_files/05_CMake_And_Data.md` |
+| `template<typename T>` | [01_foundations/03_CPP_Syntax_Reference.md](./01_foundations/03_CPP_Syntax_Reference.md) → Templates |
+| `#pragma once` | [01_foundations/03_CPP_Syntax_Reference.md](./01_foundations/03_CPP_Syntax_Reference.md) → Header Guards |
+| `std::unordered_map` | [01_foundations/02_Graph_Advanced_Concepts.md](./01_foundations/02_Graph_Advanced_Concepts.md) |
+| `std::setw` formatting | [06_cpp_concepts/01_IO_Manipulators.md](./06_cpp_concepts/01_IO_Manipulators.md) |
+| `std::priority_queue` with `greater<>` | [02_algorithms/02_Dijkstra.md](./02_algorithms/02_Dijkstra.md) → Part 0 |
+| Why BFS finds shortest path | [02_algorithms/01_BFS_DFS.md](./02_algorithms/01_BFS_DFS.md) → BFS section |
+| Stale entry optimization | [02_algorithms/02_Dijkstra.md](./02_algorithms/02_Dijkstra.md) → Part 2 |
+| `f(n) = g(n) + h(n)` formula | [02_algorithms/03_AStar.md](./02_algorithms/03_AStar.md) |
+| What "admissible heuristic" means | [02_algorithms/03_AStar.md](./02_algorithms/03_AStar.md) |
+| Why V-1 iterations in Bellman-Ford | [02_algorithms/04_BellmanFord.md](./02_algorithms/04_BellmanFord.md) |
+| Path compression in DSU | [02_algorithms/05_Kruskal_MST.md](./02_algorithms/05_Kruskal_MST.md) |
+| `disc[]` and `low[]` in Tarjan's | [02_algorithms/06_TarjanSCC.md](./02_algorithms/06_TarjanSCC.md) |
+| `low[u] == disc[u]` SCC root condition | [02_algorithms/06_TarjanSCC.md](./02_algorithms/06_TarjanSCC.md) |
+| Kahn's algorithm | [02_algorithms/07_TopologicalSort.md](./02_algorithms/07_TopologicalSort.md) |
+| RAII timer | [03_project_files/04_Utils.md](./03_project_files/04_Utils.md) → Timer |
+| CSV parsing with `stringstream` | [03_project_files/04_Utils.md](./03_project_files/04_Utils.md) → Loader |
+| `EXPECT_EQ` vs `ASSERT_EQ` | [03_project_files/03_Tests.md](./03_project_files/03_Tests.md) |
+| `FetchContent` for GoogleTest | [03_project_files/03_Tests.md](./03_project_files/03_Tests.md) → CMakeLists |
+| `std::mt19937` random numbers | [03_project_files/02_Benchmark.md](./03_project_files/02_Benchmark.md) |
+| Structured binding `auto [a, b]` | [03_project_files/01_Main.md](./03_project_files/01_Main.md) |
+| `try/catch` exceptions | [03_project_files/01_Main.md](./03_project_files/01_Main.md) |
+| `add_executable` in CMake | [03_project_files/05_CMake_And_Data.md](./03_project_files/05_CMake_And_Data.md) |
 
 ---
 
@@ -183,19 +197,19 @@ If you get confused reading a theory file, look at the **Worked Example** sectio
 ## Common "I'm Stuck" Situations
 
 ### "I don't understand what `template<typename NodeType>` means"
-→ Read `01_foundations/03_CPP_Syntax_Reference.md` → **Templates** section first
+→ Read [01_foundations/03_CPP_Syntax_Reference.md](./01_foundations/03_CPP_Syntax_Reference.md) → **Templates** section first
 
 ### "I understand the algorithm conceptually but can't follow the C++ code"
-→ Read `01_foundations/03_CPP_Syntax_Reference.md` end-to-end. It covers every C++ construct used in this project.
+→ Read [01_foundations/03_CPP_Syntax_Reference.md](./01_foundations/03_CPP_Syntax_Reference.md) end-to-end. It covers every C++ construct used in this project.
 
 ### "The algorithm makes sense but I don't know where it's actually USED"
-→ Read `03_project_files/01_Main.md` — it shows how every algorithm is called in the demo program
+→ Read [03_project_files/01_Main.md](./03_project_files/01_Main.md) — it shows how every algorithm is called in the demo program
 
 ### "I'm getting a compiler error I don't understand"
-→ Most errors come from template type mismatches. The `01_foundations/03_CPP_Syntax_Reference.md` has a **Common Compiler Errors** section
+→ Most errors come from template type mismatches. The [01_foundations/03_CPP_Syntax_Reference.md](./01_foundations/03_CPP_Syntax_Reference.md) has a **Common Compiler Errors** section
 
 ### "How does the visualizer work?"
-→ The visualizer is a self-contained web app. `main.cpp` exports JSON files, and `visualizer/graph.js` reads them. `03_project_files/01_Main.md` explains the export step; the visualizer JS is self-documented in `visualizer/graph.js`.
+→ The visualizer is a self-contained web app. `main.cpp` exports JSON files, and `visualizer/graph.js` reads them. [03_project_files/01_Main.md](./03_project_files/01_Main.md) explains the export step; the visualizer JS is self-documented in `visualizer/graph.js`.
 
 ---
 
@@ -203,16 +217,18 @@ If you get confused reading a theory file, look at the **Worked Example** sectio
 
 | Phase | Files | Time |
 |---|---|---|
-| Phase 1 — C++ Foundations | 3 files | 1–2 hours |
+| Phase 1 — C++ Foundations | 4 files | 1–2 hours |
 | Phase 2 — Basic Traversal | 1 file | 45 minutes |
 | Phase 3 — Shortest Path | 3 files | 2–3 hours |
 | Phase 4 — Advanced Algorithms | 3 files | 2–3 hours |
 | Phase 5 — Infrastructure | 5 files | 1–2 hours |
-| Phase 6 — Review & Interview Prep | 3 files | 1–2 hours |
-| **Total** | **18 files** | **8–12 hours** |
+| Phase 6 — The Web Visualizer | 5 files | 1.5 hours |
+| Phase 7 — Review & Interview Prep | 3 files | 1–2 hours |
+| **Total** | **24 files** | **9–14 hours** |
 
 Don't try to read everything in one sitting. The recommended approach:
 - **Day 1**: Phase 1 + Phase 2 (Graph class + BFS/DFS)
 - **Day 2**: Phase 3 (Dijkstra + A* + Bellman-Ford)
 - **Day 3**: Phase 4 (Kruskal + Tarjan + Topo Sort)
-- **Day 4**: Phase 5 + Phase 6 (Infrastructure + Interview Prep)
+- **Day 4**: Phase 5 + Phase 6 (Infrastructure + Web Stack)
+- **Day 5**: Phase 7 (Interview Prep)

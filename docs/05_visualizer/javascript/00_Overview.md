@@ -23,9 +23,9 @@ JavaScript is different:
 ## 3. Reading Guide
 To understand how the visualizer works, read the files in this folder in order. They map directly to the sections of `visualizer/graph.js`:
 
-1. **[01_GlobalState_and_UI.md](file:///c:/Users/Aaryan%20agrawal/OneDrive%20-%20iitkgp.ac.in/Desktop/Projects/DSA/graph_algorithm_engine/docs/05_visualizer/javascript/01_GlobalState_and_UI.md)**: How the app starts up and listens for user input.
-2. **[02_ConsoleLogging.md](file:///c:/Users/Aaryan%20agrawal/OneDrive%20-%20iitkgp.ac.in/Desktop/Projects/DSA/graph_algorithm_engine/docs/05_visualizer/javascript/02_ConsoleLogging.md)**: How we build a fake "terminal" inside the web page.
-3. **[03_FileLoading.md](file:///c:/Users/Aaryan%20agrawal/OneDrive%20-%20iitkgp.ac.in/Desktop/Projects/DSA/graph_algorithm_engine/docs/05_visualizer/javascript/03_FileLoading.md)**: How we read the C++ JSON files using drag-and-drop.
-4. **[04_PhysicsSimulation.md](file:///c:/Users/Aaryan%20agrawal/OneDrive%20-%20iitkgp.ac.in/Desktop/Projects/DSA/graph_algorithm_engine/docs/05_visualizer/javascript/04_PhysicsSimulation.md)**: The math behind the D3 force-directed graph.
-5. **[05_PlaybackControls.md](file:///c:/Users/Aaryan%20agrawal/OneDrive%20-%20iitkgp.ac.in/Desktop/Projects/DSA/graph_algorithm_engine/docs/05_visualizer/javascript/05_PlaybackControls.md)**: How the animation timer (Play/Pause) works.
-6. **[06_AlgorithmRendering.md](file:///c:/Users/Aaryan%20agrawal/OneDrive%20-%20iitkgp.ac.in/Desktop/Projects/DSA/graph_algorithm_engine/docs/05_visualizer/javascript/06_AlgorithmRendering.md)**: How we change colors to visualize algorithms.
+1. **[01_GlobalState_and_UI.md](./01_GlobalState_and_UI.md)**: How the app starts up and listens for user input.
+2. **[02_ConsoleLogging.md](./02_ConsoleLogging.md)**: How we build a fake "terminal" inside the web page.
+3. **[03_FileLoading.md](./03_FileLoading.md)**: How we read the C++ JSON files using drag-and-drop.
+4. **[04_PhysicsSimulation.md](./04_PhysicsSimulation.md)**: The math behind the D3 force-directed graph.
+5. **[05_PlaybackControls.md](./05_PlaybackControls.md)**: How the animation timer (Play/Pause) works.
+6. **[06_AlgorithmRendering.md](./06_AlgorithmRendering.md)**: How we change colors to visualize algorithms.
