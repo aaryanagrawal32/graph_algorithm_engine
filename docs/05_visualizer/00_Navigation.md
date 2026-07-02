@@ -30,9 +30,11 @@ D3.js is the powerful physics and rendering engine behind the canvas. This is a 
 > **Each file explicitly states which terms are built-in D3/JS keywords and which are variables we invented.**
 
 * 📘 [00. Prerequisites: JavaScript & SVG Math](./d3js/00_Prerequisite_JavaScript_and_SVG.md) ← **Start here!**
+* 📘 [00b. The SVG Marker Tag (Arrowheads)](./d3js/00b_SVG_Marker_Tag.md)
 * 📘 [01. Initialization and Canvas Setup](./d3js/01_Initialization_and_Canvas.md)
 * 📘 [02. Data Binding and The Join Pattern](./d3js/02_Data_Binding_and_The_Join_Pattern.md)
 * 📘 [03. The Physics Engine (Force Simulation)](./d3js/03_The_Physics_Engine.md)
+* 📘 [03b. Physics vs Geographic Coordinates (`fx` and `fy`)](./d3js/03b_Physics_vs_Geographic_Coordinates.md)
 * 📘 [04. Interactivity: Zoom, Pan, and Drag](./d3js/04_Interactivity_Zoom_and_Drag.md)
 
 

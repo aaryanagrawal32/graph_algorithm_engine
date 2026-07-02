@@ -46,7 +46,6 @@ CMakeSettings.json
 CMakeUserPresets.json
 
 # Local environment and tooling
-.agent/
 .cache/
 compile_commands.json
 
